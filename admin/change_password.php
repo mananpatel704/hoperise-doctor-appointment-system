@@ -1,0 +1,134 @@
+<?php
+
+include('common/css.php');
+
+?>
+<body class="fixed-navbar">
+    <div class="page-wrapper">
+        <!-- START HEADER-->
+        <?php
+            include('common/header.php');
+        ?>
+        <!-- END HEADER-->
+        <!-- START SIDEBAR-->
+        <?php
+            include('common/sidebar.php');
+            $admin_id=$_SESSION['admin_id'];
+            $conn=mysqli_connect("localhost","root","","hoperise");
+            if(isset($_POST['submit']))
+            {
+                $password=$_POST['password'];
+                $new_password=$_POST['new_password'];
+                $comfirm_password=$_POST['comfirm_password'];
+                if($role=='admin')
+            {
+                $query=mysqli_query($conn,"SELECT*FROM hs_admin WHERE admin_password='$password'");
+                if(mysqli_num_rows($query)>0){
+                    if($new_password == $comfirm_password)
+                    {
+                        $query=mysqli_query($conn,"update hs_admin set admin_password='$comfirm_password'WHERE admin_id=$admin_id");
+                    if($query)
+                    {
+                        echo "Data update succefully";
+                    }
+                    }
+                }
+                else{
+                    echo"incorrect password ";
+                }
+            }
+            else
+            {
+                $query=mysqli_query($conn,"SELECT*FROM hs_doctor WHERE doctor_password='$password'");
+                if(mysqli_num_rows($query)>0){
+                    if($new_password == $comfirm_password)
+                    {
+                        $query=mysqli_query($conn,"update hs_doctor set doctor_password='$comfirm_password' WHERE doctor_id=$admin_id");
+                    if($query)
+                    {
+                        echo "Data update succefully";
+                    }
+                    }
+                }
+                else{
+                    echo"incorrect password ";
+                }
+            }
+        }
+        ?>
+        <!-- END SIDEBAR-->
+        <div class="content-wrapper">
+            <!-- START PAGE CONTENT-->
+            <div class="page-heading">
+                <h1 class="page-title">Change Password</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html"><i class="la la-home font-20"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">Change Password</li>
+                </ol>
+            </div>
+            <div class="page-content fade-in-up">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="ibox">
+                            <div class="ibox-head">
+                                <div class="ibox-title">Change Password</div>
+                                <div class="ibox-tools">
+                                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item">option 1</a>
+                                        <a class="dropdown-item">option 2</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ibox-body">
+                            <form action="" method="post">
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input class="form-control" type="password"name="password" placeholder="Old_Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>New Password</label>
+                                        <input class="form-control" type="password"name="new_password" placeholder="New_Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <input class="form-control" type="password"name="comfirm_password" placeholder="Confirm_New_Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="ui-checkbox">
+                                            <input type="checkbox">
+                                            <span class="input-span"></span>Remamber me</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-default" type="submit"name="submit">Submit</button>
+                                    </div>
+                                </form>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+            <!-- END PAGE CONTENT-->
+            <?php
+                include('common/footer.php');
+            ?>
+        </div>
+    </div>
+    <!-- BEGIN THEME CONFIG PANEL-->
+    <?php
+        include('common/configue_panel.php');
+    ?>
+    <!-- END THEME CONFIG PANEL-->
+    <!-- BEGIN PAGA BACKDROPS-->
+    <?php
+        include('common/preloader.php');
+    ?>
+    <!-- END PAGA BACKDROPS-->
+    <!-- CORE PLUGINS-->
+    <?php
+        include('common/main_footer.php');
+    ?>
